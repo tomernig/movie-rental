@@ -29,7 +29,7 @@ let obj={
         // לפני הוספת סרט חדש, נבדוק האם קיים סרט עם אותו קוד סרט
         Movie.find({mid:mid}).then((data)=>{
             if(data.length>0)// במידה וקיים סרט עם קוד הסרט שנשלח
-            {// הודע שלא ניתן להוסיף את הסרט
+            {
                 return res.status(200).json({message:`movie id ${mid} already exist`});
             }
             else{

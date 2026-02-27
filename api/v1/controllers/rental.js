@@ -1,7 +1,5 @@
 const Rental=require('../models/rental');
 const Movie=require('../models/movie');
-const jwt=require('jsonwebtoken');
-const PrivateKey=process.env.PRIVATE_KEY || "abcd1234";// מפתח פרטי להצפנה
 
 let obj={
     getAllRentals:(req,res)=>{
@@ -38,7 +36,7 @@ let obj={
                     returnDate:null,// תאריך החזרה - ריק עד שהלקוח מחזיר
                     isReturned:false// הסרט עדיין לא הוחזר
                 }).then((rental)=>{
-                    // עדכון מספר העותקים הזמינים - הורדה ב 1
+                    // עדכון מספר העותקים הזמינים - הורדה ב-1
                     Movie.updateOne({mid:mid},{copies:data[0].copies-1}).then(()=>{
                         return res.status(200).json({message:"Movie rented successfully",rental});
                     });
@@ -61,7 +59,7 @@ let obj={
             else{
                 // עדכון ההשכרה - סימון שהסרט הוחזר ועדכון תאריך החזרה
                 Rental.updateOne({_id:id},{isReturned:true,returnDate:new Date()}).then(()=>{
-                    // עדכון מספר העותקים הזמינים - הוספה ב 1
+                    // עדכון מספר העותקים הזמינים - הוספה ב-1
                     Movie.find({mid:rental.mid}).then((data)=>{
                         Movie.updateOne({mid:rental.mid},{copies:data[0].copies+1}).then(()=>{
                             return res.status(200).json({message:"Movie returned successfully"});
